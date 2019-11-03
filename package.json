@@ -1,0 +1,15 @@
+{
+  "name": "meditation",
+  "version": "1.0.0",
+  "description": "finds total users and total unique users who viewed a product on daily/weekly/monthly/Custom date",
+  "main": "app.js",
+  "dependencies": {
+    "mongoose": "^5.7.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "vivek",
+  "license": "ISC"
+}

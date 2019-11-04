@@ -4,25 +4,19 @@ const readline = require('readline')
 var dbPath  = "mongodb://localhost/medi";
 
 // command to connect with database
-
 db = mongoose.connect(dbPath, {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true});
 
-mongoose.connection.once('open', function() {
-
-	console.log("database connection open success");
-
-});
-
+// inilialise the models
 require('./models/userView');
-
-var stdin = process.openStdin();
 var userModel = mongoose.model('userView')
 
+// declare the readline interface
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 })
 
+// question 1
 const question1 = () => {
   return new Promise((resolve, reject) => {
     let q = `\n\n
@@ -38,7 +32,7 @@ Please select:\n
     })
   })
 }
-
+// question 2
 const question2 = () => {
   return new Promise((resolve, reject) => {
     rl.question('Enter custom date (Format: yyyy-mm-dd)\n', (answer) => {
@@ -47,10 +41,15 @@ const question2 = () => {
   })
 }
 
-setTimeout(()=>{
+// Handle db connection error
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+// connect to database and execute the function
+mongoose.connection.once('open', function() {
+	console.log("database connection open success");
     takeInputAndCalculate()
-},500)
+});
 
+// function to take input and do db operations
 async function takeInputAndCalculate() {
 
     let d = await question1()
@@ -159,7 +158,7 @@ async function takeInputAndCalculate() {
         takeInputAndCalculate()
     }
 
-    if(aggregate){
+    if(opt){
         userModel.aggregate(aggregate,(err,foundUser)=>{
             if(err){
                 console.log(err)
